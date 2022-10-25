@@ -19,3 +19,7 @@ The program of the course mainly concerns:
 
 Four lab sessions are planned: two will concern **C++** and the other two will
 concern **Python**.
+
+## Impressum
+
+Stefano Natalini and Shoichi Yip // 2022
