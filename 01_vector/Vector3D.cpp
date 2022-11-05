@@ -37,7 +37,7 @@ class Vector3D {
 			y_ = y;
 			z_ = z;
 		}
-
+		//ciao
 		Vector3D(const Vector3D& vector) {
 			// This method is a copy constructor, and it allows the
 			// user to assign an existing instance of Vector3D to a
@@ -139,15 +139,45 @@ class Vector3D {
 			result = sqrt(x_*x_ + y_*y_ + z_*z_);
 			return result;
 		}
-
+		//inclination theta=[0,pi]
 		double theta() {
 			double theta;
 			double magnitude = this->magnitude();
 			cout << "mag: " << magnitude << endl;
 			cout << "x: " << x_ << endl;
 			cout << "ratio: " << magnitude / x_ << endl;
-			theta = acos(x_ / magnitude);
+			theta = acos(z_ / magnitude);
 			return theta;
+		}
+		//azimuth phi=[0,2pi]
+		double phi() {
+			double phi;
+			double magnitude = this->magnitude();
+			if (x_ > 0) {
+
+				phi = atan(y_ / x_);
+			}
+			else if (x_ < 0 && y_ >= 0) {
+				phi = atan(y_ / x_) + M_PI;
+			
+			}
+			else if (x_ < 0 && y_ < 0) {
+				phi = atan(y_ / x_) - M_PI;
+
+			}
+			else if (x_ = 0 && y_ > 0) {
+				phi = M_PI/2;
+
+			}
+
+			else if (x_ = 0 && y_ < 0) {
+				phi = -M_PI / 2;
+
+			}
+			else {
+				cout << "The angle phi is undefined" << endl;
+			}
+			return phi;
 		}
 
 		// Debug Methods
@@ -168,51 +198,3 @@ class Vector3D {
 		double y_;
 		double z_;
 };
-
-// Main function
-
-int main() {
-
-	// Debug print
-
-	Vector3D v;
-	v.print();
-
-	Vector3D v1(1,2,3);
-	v1.print();
-
-	// Debug getter methods
-	
-	cout << v1.getX() << ", " << v1.getY() << ", " << v1.getZ() << endl;
-
-	// Debug setter methods
-	
-	v1.setX(7);
-	v1.print();
-
-	// Debug scalar product
-	
-	Vector3D v2(4,5,6);
-	v2.print();
-	double sp = v1.scalarProduct(v2);
-	cout << "Scalar Product between v1 and v2 is " << sp << endl;
-
-	// Debug scalar product
-	
-	Vector3D vp = v1.vectorProduct(v2);
-	cout << "Vector Product between v1 and v2 is " << endl;
-	vp.print();
-
-	// Debug magnitude
-	
-	cout << v1.magnitude() << "\n" << v2.magnitude() << endl;
-
-	// Debug theta
-	.955317
-	cout << v1.theta() << "\n" << v2.theta() << endl;
-
-	Vector3D v3(1,1,1);
-	cout << v3.theta() << endl;
-
-	return 0;
-}
