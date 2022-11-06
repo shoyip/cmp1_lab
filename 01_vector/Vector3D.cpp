@@ -37,7 +37,7 @@ class Vector3D {
 			y_ = y;
 			z_ = z;
 		}
-		//ciao
+
 		Vector3D(const Vector3D& vector) {
 			// This method is a copy constructor, and it allows the
 			// user to assign an existing instance of Vector3D to a
@@ -85,7 +85,7 @@ class Vector3D {
 		// Other Methods
 		// =============
 
-		double scalarProduct(const Vector3D& vector2) {
+		const double scalarProduct(const Vector3D& vector2) {
 			// This method computes the scalar product between the
 			// instantiated vector and a second vector that is passed
 			// as an argument, returning a real number.
@@ -127,7 +127,7 @@ class Vector3D {
 			return Vector3D(rvx, rvy, rvz);
 		}
 
-		double magnitude() {
+		double const magnitude() {
 			// Compute magnitude of the instantiated vector
 			//
 			// Returns
@@ -140,8 +140,8 @@ class Vector3D {
 			return result;
 		}
         
-        double theta() {
-            // Compute the inclination angle theta, which spans [-pi/2, pi/2]
+        double const theta() {
+            // Compute the inclination angle theta, which spans [0, pi]
             //
             // Returns
             // =======
@@ -152,7 +152,7 @@ class Vector3D {
             return theta;
         }
 
-        double phi() {
+        double const phi() {
             // Compute the azimuthal angle phi, which spans [0, 2*pi]
             //
             // Returns
@@ -174,6 +174,52 @@ class Vector3D {
                 phi = -M_PI / 2.;
             }
             return phi;
+        }
+
+        double const angle(Vector3D& vector2) {
+            // Compute the angle between the current vector and another one.
+            // Spans [0, pi].
+            //
+            // Parameters
+            // ==========
+            //  vector2: Vector3D
+            //      The vector with which the angle is to be computed
+            //
+            // Returns
+            // =======
+            //  angle: double
+            //      The angle between the two vectors in radians
+            double angle;
+            angle = acos(this->scalarProduct(vector2) / (this->magnitude() * vector2.magnitude()));
+            return angle;
+        }
+       
+        // Overload operators
+        // ==================
+        
+        Vector3D operator+(const Vector3D& vector2) const {
+            double new_x, new_y, new_z;
+            new_x = x_ + vector2.x_;
+            new_y = y_ + vector2.y_;
+            new_z = z_ + vector2.z_;
+            Vector3D new_vector(new_x, new_y, new_z);
+            return new_vector;
+        }
+        
+        Vector3D operator-(const Vector3D& vector2) const {
+            double new_x, new_y, new_z;
+            new_x = x_ - vector2.x_;
+            new_y = y_ - vector2.y_;
+            new_z = z_ - vector2.z_;
+            Vector3D new_vector(new_x, new_y, new_z);
+            return new_vector;
+        }
+        
+        Vector3D operator=(const Vector3D& vector2) {
+            x_ = vector2.x_;
+            y_ = vector2.y_;
+            z_ = vector2.z_;
+            return *this;
         }
 
 		// Debug Methods
@@ -209,4 +255,15 @@ int main () {
 
     cout << v3.theta() << endl;
     cout << v3.phi() << endl;
+
+    cout << "Angle between v2 and v3" << endl;
+    cout << v3.angle(v2) << endl;
+
+    Vector3D v4;
+    v4 = v2 + v3;
+    v4.print();
+
+    Vector3D v5;
+    v5 = v4;
+    v5.print();
 }
