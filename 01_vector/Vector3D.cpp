@@ -139,46 +139,42 @@ class Vector3D {
 			result = sqrt(x_*x_ + y_*y_ + z_*z_);
 			return result;
 		}
-		//inclination theta=[0,pi]
-		double theta() {
-			double theta;
-			double magnitude = this->magnitude();
-			cout << "mag: " << magnitude << endl;
-			cout << "x: " << x_ << endl;
-			cout << "ratio: " << magnitude / x_ << endl;
-			theta = acos(z_ / magnitude);
-			return theta;
-		}
-		//azimuth phi=[0,2pi]
-		double phi() {
-			double phi;
-			double magnitude = this->magnitude();
-			if (x_ > 0) {
+        
+        double theta() {
+            // Compute the inclination angle theta, which spans [-pi/2, pi/2]
+            //
+            // Returns
+            // =======
+            //  theta: double
+            //      Value of the theta angle
+            double theta;
+            theta = acos(z_ / this->magnitude());
+            return theta;
+        }
 
-				phi = atan(y_ / x_);
-			}
-			else if (x_ < 0 && y_ >= 0) {
-				phi = atan(y_ / x_) + M_PI;
-			
-			}
-			else if (x_ < 0 && y_ < 0) {
-				phi = atan(y_ / x_) - M_PI;
-
-			}
-			else if (x_ = 0 && y_ > 0) {
-				phi = M_PI/2;
-
-			}
-
-			else if (x_ = 0 && y_ < 0) {
-				phi = -M_PI / 2;
-
-			}
-			else {
-				cout << "The angle phi is undefined" << endl;
-			}
-			return phi;
-		}
+        double phi() {
+            // Compute the azimuthal angle phi, which spans [0, 2*pi]
+            //
+            // Returns
+            // =======
+            //  phi: double
+            //      Value of the phi angle
+            double phi;
+            if (x_ > 0) {
+                // the point is in the first or fourth xy quadrant
+                phi = atan(y_ / x_);
+            } else if (x_ < 0) {
+                // the point is in the second or third xy quadrant
+                phi = atan(y_ / x_) + M_PI;
+            } else if (x_ == 0 && y_ > 0) {
+                // the point is on the upper singularity of atan
+                phi = M_PI / 2.;
+            } else if (x_ == 0 && y_ < 0) {
+                // the point is on the lower singularity of atan
+                phi = -M_PI / 2.;
+            }
+            return phi;
+        }
 
 		// Debug Methods
 		// =============
@@ -198,3 +194,19 @@ class Vector3D {
 		double y_;
 		double z_;
 };
+
+int main () {
+    Vector3D v1;
+
+    cout << "Vector v2" << endl;
+    Vector3D v2(1,2,3);
+
+    cout << v2.theta() << endl;
+    cout << v2.phi() << endl;
+
+    cout << "Vector v3" << endl;
+    Vector3D v3(-10,5,7);
+
+    cout << v3.theta() << endl;
+    cout << v3.phi() << endl;
+}
