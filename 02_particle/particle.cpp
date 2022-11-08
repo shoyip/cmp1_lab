@@ -34,7 +34,7 @@ int main (int argc, char* argv[]) {
     double pstar = 2607; // MeV
     double beta = 0.0567;
 
-    TH1F hinvmass("hinvmass", "distribution of the invariant mass", 100, 3600, 3900);
+    TH1F hinvmass("hinvmass", "distribution of the invariant mass", 100, -6000, 6000);
     TH1F htheta("htheta", "distribution of the angle between the momenta", 100, 3., 3.2);
 
     tree->Branch("p4_pi", &p4_pi, "p4_pi/l");
@@ -57,7 +57,7 @@ int main (int argc, char* argv[]) {
         p4_pi.Boost(beta, 0, 0);
         p4_k.Boost(beta, 0, 0);
         // Compute the invariant mass and the angle between TLorentzVectors
-        invmass = sqrt(p4_pi.M2() + p4_k.M2() + 2.*pstar*pstar);
+        invmass = sqrt(abs(pow(p4_pi[0] + p4_k[0], 2.) - (pow(p4_pi[1]+p4_k[1], 2.) + pow(p4_pi[2]+p4_k[2], 2.) + pow(p4_pi[3]+p4_k[3], 2.))));
         theta = p4_pi.Angle(p4_k.Vect());
         // Fill the histogram
         hinvmass.Fill(invmass);
